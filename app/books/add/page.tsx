@@ -67,7 +67,7 @@ export default function AddBookPage() {
       toast({
         title: "Error",
         description: "Please fill in all required fields",
-        variant: "destructive"
+        // variant: "destructive"
       })
       return
     }
@@ -91,7 +91,7 @@ export default function AddBookPage() {
       toast({
         title: "Error",
         description: "Failed to add book. Please try again.",
-        variant: "destructive"
+        // variant: "destructive"
       })
     } finally {
       setIsSubmitting(false)

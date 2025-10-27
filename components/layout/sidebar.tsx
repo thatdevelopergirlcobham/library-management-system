@@ -5,7 +5,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { BookOpen, Home, Users, Menu, ChevronLeft, ChevronRight, LogOut,  BookUp, BookDown } from "lucide-react"
 import { cn } from "../../lib/utils"
-import { ThemeToggle } from "../theme-toggle"
+// import { ThemeToggle } from "../theme-toggle"
 
 const navItems = [
   {
@@ -152,7 +152,7 @@ export function Sidebar({ className }: SidebarProps) {
           {/* Footer */}
           <div className="border-t p-4">
             <div className="flex items-center justify-between gap-2">
-              <ThemeToggle variant="ghost" className={cn("w-full justify-start", isCollapsed && "justify-center")} />
+              {/* <ThemeToggle className={cn("w-full justify-start", isCollapsed && "justify-center")} /> */}
               
               <button
                 onClick={handleLogout}

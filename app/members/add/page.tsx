@@ -66,7 +66,7 @@ export default function AddMemberPage() {
       toast({
         title: "Error",
         description: "Please fill in all required fields",
-        variant: "destructive"
+        // variant: "destructive"
       })
       return
     }
@@ -77,7 +77,7 @@ export default function AddMemberPage() {
       toast({
         title: "Error",
         description: "Please enter a valid email address",
-        variant: "destructive"
+        // variant: "destructive"
       })
       return
     }
@@ -101,7 +101,7 @@ export default function AddMemberPage() {
       toast({
         title: "Error",
         description: "Failed to add member. Please try again.",
-        variant: "destructive"
+        // variant: "destructive"
       })
     } finally {
       setIsSubmitting(false)

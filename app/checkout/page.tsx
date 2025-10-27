@@ -107,7 +107,7 @@ export default function CheckoutPage() {
       toast({
         title: "Error",
         description: "Failed to check out book. Please try again.",
-        variant: "destructive"
+        // variant: "destructive"
       })
     } finally {
       setIsLoading(false)

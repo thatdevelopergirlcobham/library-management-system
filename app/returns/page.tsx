@@ -126,7 +126,7 @@ export default function ReturnsPage() {
       toast({
         title: "Error",
         description: "Failed to process return. Please try again.",
-        variant: "destructive"
+        // variant: "destructive"
       })
     } finally {
       setIsLoading(false)
