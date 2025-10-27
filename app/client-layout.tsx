@@ -34,8 +34,8 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
     <TooltipProvider>
       <div className="flex min-h-screen w-full flex-col md:flex-row">
         <Sidebar />
-        <main className="flex-1 md:pl-16 lg:pl-64">
-          <div className="p-4 md:p-6">
+        <main className="flex-1 pt-16 md:pt-0 md:pl-16 lg:pl-64">
+          <div className="p-4 sm:p-6">
             {children}
           </div>
         </main>

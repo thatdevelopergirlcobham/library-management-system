@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { BookOpen, Home, Users, Menu, ChevronLeft, ChevronRight, LogOut,  BookUp, BookDown } from "lucide-react"
+import { BookOpen, Home, Users, Menu, ChevronLeft, ChevronRight, LogOut,  BookUp, BookDown, X } from "lucide-react"
 import { cn } from "../../lib/utils"
 // import { ThemeToggle } from "../theme-toggle"
 
@@ -49,9 +49,9 @@ export function Sidebar({ className }: SidebarProps) {
     setIsMobileOpen(false)
   }, [pathname])
 
-  const toggleSidebar = () => {
-    setIsCollapsed(!isCollapsed)
-  }
+  // const toggleSidebar = () => {
+  //   setIsCollapsed(!isCollapsed)
+  // }
 
   const toggleMobileMenu = () => {
     setIsMobileOpen(!isMobileOpen)
@@ -79,93 +79,81 @@ export function Sidebar({ className }: SidebarProps) {
       {/* Backdrop for mobile */}
       {isMobileOpen && (
         <div 
-          className="fixed inset-0 bg-black/50 z-40 md:hidden"
           onClick={() => setIsMobileOpen(false)}
         />
       )}
 
-      {/* Sidebar */}
-      <div 
+      <div
         className={cn(
-          "fixed top-0 left-0 h-full border-r bg-background transition-all duration-300 ease-in-out z-50",
-          isCollapsed ? "w-16" : "w-64",
-          isMobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0",
+          "fixed inset-y-0 z-40 flex flex-col bg-background transition-all duration-300 ease-in-out md:relative",
+          "w-64 border-r",
+          isCollapsed && "w-16",
+          !isMobileOpen && "-translate-x-full md:translate-x-0",
           className
         )}
       >
-        <div className="flex h-full flex-col">
-          {/* Header */}
-          <div className="flex h-16 items-center justify-between border-b px-4">
-            <Link 
-              href="/dashboard" 
-              className={cn(
-                "flex items-center gap-2 font-semibold whitespace-nowrap overflow-hidden transition-all",
-                isCollapsed ? "w-0 opacity-0" : "w-auto opacity-100"
-              )}
-            >
-              <BookOpen className="h-6 w-6 flex-shrink-0" />
-              <span>Library MS</span>
-            </Link>
-            
-            <button 
-              onClick={toggleSidebar}
-              className="p-1.5 rounded-md hover:bg-muted"
+        <div className="flex h-16 items-center justify-between border-b px-4">
+          {!isCollapsed && (
+            <h1 className="text-lg font-semibold">Library</h1>
+          )}
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setIsCollapsed(!isCollapsed)}
+              className="hidden rounded-md p-2 hover:bg-muted md:block"
               aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
             >
-              {isCollapsed ? (
-                <ChevronRight className="h-5 w-5" />
-              ) : (
-                <ChevronLeft className="h-5 w-5" />
-              )}
+              {isCollapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
+            </button>
+            <button
+              onClick={() => setIsMobileOpen(false)}
+              className="rounded-md p-2 hover:bg-muted md:hidden"
+              aria-label="Close menu"
+            >
+              <X size={20} />
             </button>
           </div>
+        </div>
 
-          {/* Navigation */}
-          <nav className="flex-1 overflow-y-auto py-4 px-2">
-            <ul className="space-y-1">
-              {navItems.map((item) => {
-                const isActive = pathname.startsWith(item.href)
-                return (
-                  <li key={item.href}>
-                    <Link
-                      href={item.href}
-                      className={cn(
-                        "flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium transition-colors",
-                        isActive 
-                          ? "bg-primary/10 text-primary" 
-                          : "text-muted-foreground hover:bg-muted/50 hover:text-foreground",
-                        isCollapsed ? "justify-center px-2" : ""
-                      )}
-                      title={isCollapsed ? item.name : undefined}
-                    >
-                      <item.icon className="h-5 w-5 flex-shrink-0" />
-                      <span className={cn("transition-opacity", isCollapsed ? "opacity-0 w-0" : "opacity-100")}>
-                        {item.name}
-                      </span>
-                    </Link>
-                  </li>
-                )
-              })}
-            </ul>
-          </nav>
+        {/* Navigation */}
+        <nav className="flex-1 overflow-y-auto overflow-x-hidden py-4">
+          <ul className="space-y-1 px-2">
+            {navItems.map((item) => {
+              const isActive = pathname.startsWith(item.href)
+              return (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className={cn(
+                      "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted",
+                      isActive
+                        ? "bg-primary/10 text-primary"
+                        : "text-muted-foreground hover:text-foreground",
+                      isCollapsed && "justify-center px-2"
+                    )}
+                  >
+                    <item.icon className="h-5 w-5 flex-shrink-0" />
+                    {!isCollapsed && <span className="truncate">{item.name}</span>}
+                  </Link>
+                </li>
+              )
+            })}
+          </ul>
+        </nav>
 
-          {/* Footer */}
-          <div className="border-t p-4">
-            <div className="flex items-center justify-between gap-2">
-              {/* <ThemeToggle className={cn("w-full justify-start", isCollapsed && "justify-center")} /> */}
-              
-              <button
-                onClick={handleLogout}
-                className={cn(
-                  "flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground",
-                  isCollapsed ? "p-2" : "w-full"
-                )}
-                title={isCollapsed ? "Sign out" : undefined}
-              >
-                <LogOut className="h-5 w-5" />
-                {!isCollapsed && <span>Sign out</span>}
-              </button>
-            </div>
+        {/* Footer */}
+        <div className="border-t p-4">
+          <div className="flex items-center justify-between gap-2">
+            <button
+              onClick={handleLogout}
+              className={cn(
+                "flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground",
+                isCollapsed ? "justify-center px-2" : "justify-start"
+              )}
+              title={isCollapsed ? "Sign out" : undefined}
+            >
+              <LogOut className="h-5 w-5 flex-shrink-0" />
+              {!isCollapsed && <span className="truncate">Sign out</span>}
+            </button>
           </div>
         </div>
       </div>
