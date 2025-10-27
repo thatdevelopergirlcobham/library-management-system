@@ -6,22 +6,71 @@ import { Button } from "../../components/ui/button"
 import { Input } from "../../components/ui/input"
 import { Label } from "../../components/ui/label"
 import Link from "next/link"
+import { Loader2 } from "lucide-react"
+
+// Default credentials for demo purposes
+const DEFAULT_CREDENTIALS = {
+  email: "admin@library.com",
+  password: "admin123"
+}
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const [formData, setFormData] = useState({
+    email: "",
+    password: ""
+  })
   const [error, setError] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }))
+    // Clear error when user starts typing
+    if (error) setError("")
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // For demo purposes, accept any non-empty credentials
-    if (email && password) {
-      // In a real app, you would validate credentials with your backend
-      localStorage.setItem("isAuthenticated", "true")
-      router.push("/dashboard")
-    } else {
+    setIsLoading(true)
+    setError("")
+
+    // Basic validation
+    if (!formData.email || !formData.password) {
       setError("Please enter both email and password")
+      setIsLoading(false)
+      return
+    }
+
+    if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      setError("Please enter a valid email address")
+      setIsLoading(false)
+      return
+    }
+
+    // Simulate API call
+    try {
+      // In a real app, you would make an API call here
+      await new Promise(resolve => setTimeout(resolve, 1000))
+      
+      // Check credentials (for demo purposes)
+      if (
+        formData.email === DEFAULT_CREDENTIALS.email &&
+        formData.password === DEFAULT_CREDENTIALS.password
+      ) {
+        localStorage.setItem("isAuthenticated", "true")
+        localStorage.setItem("userEmail", formData.email)
+        router.push("/dashboard")
+      } else {
+        setError("Invalid email or password")
+      }
+    } catch (err) {
+      setError("An error occurred. Please try again.")
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -50,11 +99,13 @@ export default function LoginPage() {
               <Label htmlFor="email">Email address</Label>
               <Input
                 id="email"
+                name="email"
                 type="email"
                 placeholder="name@example.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
+                value={formData.email}
+                onChange={handleChange}
+                autoComplete="username"
+                className={error && !formData.email ? "border-destructive" : ""}
               />
             </div>
             
@@ -67,16 +118,30 @@ export default function LoginPage() {
               </div>
               <Input
                 id="password"
+                name="password"
                 type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
+                value={formData.password}
+                onChange={handleChange}
+                autoComplete="current-password"
+                className={error && !formData.password ? "border-destructive" : ""}
               />
             </div>
             
-            <Button type="submit" className="w-full">
-              Sign in
+            <Button type="submit" className="w-full" disabled={isLoading}>
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Signing in...
+                </>
+              ) : (
+                "Sign in"
+              )}
             </Button>
+            <div className="text-center text-sm text-muted-foreground mt-2">
+              <p>Demo credentials:</p>
+              <p>Email: <span className="font-mono">admin@library.com</span></p>
+              <p>Password: <span className="font-mono">admin123</span></p>
+            </div>
           </form>
           
           <div className="mt-4 text-center text-sm">
