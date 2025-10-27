@@ -1,12 +1,11 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
-import { Search, BookCheck, User, X, Check } from "lucide-react"
+// import { useRouter } from "next/navigation"
+import { Search, BookCheck, User, Check } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+// Card components replaced with div elements
 import { useToast } from "@/components/ui/use-toast"
 
 type Book = {
@@ -25,7 +24,6 @@ type Member = {
 }
 
 export default function CheckoutPage() {
-  const router = useRouter()
   const { toast } = useToast()
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedBook, setSelectedBook] = useState<Book | null>(null)
@@ -105,7 +103,7 @@ export default function CheckoutPage() {
       
       // In a real app, you might want to refresh the books list
       // to show the updated availability status
-    } catch (error) {
+    } catch {
       toast({
         title: "Error",
         description: "Failed to check out book. Please try again.",
@@ -129,14 +127,14 @@ export default function CheckoutPage() {
 
       <div className="grid gap-6 md:grid-cols-2">
         {/* Book Selection */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+        <div className="border rounded-lg overflow-hidden">
+          <div className="p-6 border-b">
+            <h2 className="flex items-center gap-2 text-lg font-semibold">
               <BookCheck className="h-5 w-5" />
               Select Book
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
+            </h2>
+          </div>
+          <div className="p-6 space-y-4">
             <div className="relative">
               <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
               <Input
@@ -180,18 +178,18 @@ export default function CheckoutPage() {
                   ))}
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
         {/* Member Selection */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+        <div className="border rounded-lg overflow-hidden">
+          <div className="p-6 border-b">
+            <h2 className="flex items-center gap-2 text-lg font-semibold">
               <User className="h-5 w-5" />
               Select Member
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
+            </h2>
+          </div>
+          <div className="p-6 space-y-4">
             <div className="relative">
               <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
               <Input
@@ -238,16 +236,16 @@ export default function CheckoutPage() {
                   ))}
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
 
       {/* Summary and Checkout Button */}
-      <Card className="mt-6">
-        <CardHeader>
-          <CardTitle>Checkout Summary</CardTitle>
-        </CardHeader>
-        <CardContent>
+      <div className="border rounded-lg overflow-hidden mt-6">
+        <div className="p-6 border-b">
+          <h2 className="text-lg font-semibold">Checkout Summary</h2>
+        </div>
+        <div className="p-6 space-y-6">
           {selectedBook && selectedMember ? (
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
@@ -288,8 +286,8 @@ export default function CheckoutPage() {
               <p>Select a book and member to proceed with checkout</p>
             </div>
           )}
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   )
 }

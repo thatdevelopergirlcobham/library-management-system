@@ -118,8 +118,8 @@ export default function MembersPage() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Members</h1>
-          <p className="text-muted-foreground">
-            Manage your library members and their memberships
+          <p className="text-sm text-muted-foreground">
+            Manage your library&apos;s members, view checkouts, and track memberships.
           </p>
         </div>
         
@@ -278,7 +278,7 @@ export default function MembersPage() {
           <DialogHeader>
             <DialogTitle>Are you sure?</DialogTitle>
             <DialogDescription>
-              This action cannot be undone. This will permanently delete the member's record.
+              This action cannot be undone. This will permanently delete the members record.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>

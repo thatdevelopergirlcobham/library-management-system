@@ -1,7 +1,6 @@
 "use client"
 
 import { BookOpen, Users, BookCheck, BookX, Clock, AlertTriangle, Plus } from "lucide-react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../components/ui/card"
 import { Button } from "../../components/ui/button"
 import Link from "next/link"
 
@@ -14,22 +13,18 @@ type StatCardProps = {
   bgColor: string
 }
 
-function StatCard({ title, value, icon: Icon, description, color, bgColor }: StatCardProps) {
+function StatCard({ title, value, icon: Icon, description, color }: StatCardProps) {
   return (
-    <Card className="h-full">
-      <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-        <div>
-          <p className="text-sm font-medium text-muted-foreground">{title}</p>
-          <h3 className="text-2xl font-bold">{value}</h3>
-        </div>
-        <div className={`rounded-md p-3 ${bgColor}`}>
-          <Icon className={`h-5 w-5 ${color}`} />
-        </div>
-      </CardHeader>
-      <CardContent>
+    <div className="border rounded-lg p-6">
+      <div className="flex flex-row items-center justify-between pb-2">
+        <h3 className="text-sm font-medium">{title}</h3>
+        <Icon className={`h-4 w-4 ${color}`} />
+      </div>
+      <div>
+        <div className="text-2xl font-bold">{value}</div>
         <p className="text-xs text-muted-foreground">{description}</p>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   )
 }
 
@@ -114,11 +109,11 @@ export default function DashboardPage() {
   ]
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-          <p className="text-muted-foreground">Welcome back! Here's what's happening with your library.</p>
+          <p className="text-muted-foreground">Welcome back! Here is whats happening with your library.</p>
         </div>
         <div className="flex items-center gap-2">
           <Button asChild>
@@ -139,12 +134,11 @@ export default function DashboardPage() {
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {/* Recent Activity */}
-        <Card className="lg:col-span-2">
-          <CardHeader>
-            <CardTitle>Recent Activity</CardTitle>
-            <CardDescription>Latest actions in the library system</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
+        <div className="col-span-4 border rounded-lg p-6">
+          <div className="pb-4">
+            <h2 className="text-lg font-semibold">Recent Activity</h2>
+          </div>
+          <div className="space-y-4">
             {recentActivity.map((activity) => (
               <div key={activity.id} className="flex items-start gap-4">
                 <div className="rounded-full bg-muted p-2">
@@ -160,19 +154,18 @@ export default function DashboardPage() {
                 </div>
               </div>
             ))}
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
         {/* Overdue Books */}
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="flex items-center gap-2">
+        <div className="border rounded-lg p-6">
+          <div className="pb-3">
+            <h2 className="text-lg font-semibold flex items-center gap-2">
               <AlertTriangle className="h-5 w-5 text-destructive" />
               Overdue Books
-            </CardTitle>
-            <CardDescription>{overdueBooks.length} books are overdue</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
+            </h2>
+          </div>
+          <div className="space-y-4">
             {overdueBooks.length > 0 ? (
               <div className="space-y-4">
                 {overdueBooks.map((book) => (
@@ -192,44 +185,41 @@ export default function DashboardPage() {
                 <p className="text-sm text-muted-foreground">No overdue books. Great job!</p>
               </div>
             )}
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
         {/* Quick Actions */}
-        <Card className="lg:col-span-3">
-          <CardHeader>
-            <CardTitle>Quick Actions</CardTitle>
-            <CardDescription>Frequently used actions</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <Button asChild variant="outline" className="h-24 flex-col gap-2">
-                <Link href="/checkout">
-                  <BookCheck className="h-6 w-6" />
-                  <span>Check Out</span>
-                </Link>
-              </Button>
-              <Button asChild variant="outline" className="h-24 flex-col gap-2">
-                <Link href="/returns">
-                  <BookX className="h-6 w-6" />
-                  <span>Return Book</span>
-                </Link>
-              </Button>
-              <Button asChild variant="outline" className="h-24 flex-col gap-2">
-                <Link href="/members/add">
-                  <Users className="h-6 w-6" />
-                  <span>Add Member</span>
-                </Link>
-              </Button>
-              <Button asChild variant="outline" className="h-24 flex-col gap-2">
-                <Link href="/books/add">
-                  <BookOpen className="h-6 w-6" />
-                  <span>Add Book</span>
-                </Link>
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+        <div className="col-span-3 border rounded-lg p-6">
+          <div className="pb-4">
+            <h2 className="text-lg font-semibold">Quick Actions</h2>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <Button asChild variant="outline" className="h-24 flex-col gap-2">
+              <Link href="/checkout">
+                <BookCheck className="h-6 w-6" />
+                <span>Check Out</span>
+              </Link>
+            </Button>
+            <Button asChild variant="outline" className="h-24 flex-col gap-2">
+              <Link href="/returns">
+                <BookX className="h-6 w-6" />
+                <span>Return Book</span>
+              </Link>
+            </Button>
+            <Button asChild variant="outline" className="h-24 flex-col gap-2">
+              <Link href="/members/add">
+                <Users className="h-6 w-6" />
+                <span>Add Member</span>
+              </Link>
+            </Button>
+            <Button asChild variant="outline" className="h-24 flex-col gap-2">
+              <Link href="/books/add">
+                <BookOpen className="h-6 w-6" />
+                <span>Add Book</span>
+              </Link>
+            </Button>
+          </div>
+        </div>
       </div>
     </div>
   )
